@@ -50,7 +50,7 @@ const func = (RED) => {
                         aquaMsg.push({ payload: aquaPayload.Humidity });
                         aquaMsg.push({ payload: aquaPayload.Endpoint });
                         aquaMsg.push({ payload: aquaPayload.LinkQuality });
-                        aquaMsg.push({ payload: (new Date()).toLocaleDateString('de-DE') });
+                        aquaMsg.push({ payload: (new Date()).toString() });
                     }
                     send(aquaMsg);
                 }
