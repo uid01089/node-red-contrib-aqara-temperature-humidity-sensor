@@ -1,7 +1,7 @@
 {
   "name": "node-red-contrib-aqara-temperature-humidity-sensor",
   "version": "0.0.1",
-  "description": "Split the message catalog from zigbee2mqqt into single messages",
+  "description": "Process messages from the mentioned sensor",
   "main": "./src/aqara-temperature-humidity-sensor.js",
   "repository": {
     "url": "https://github.com/uid01089/vocabularytrainer"

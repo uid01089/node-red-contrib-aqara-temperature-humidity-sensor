@@ -1,7 +1,7 @@
 import { Node, Red, NodeProperties } from "node-red";
 
 const func = (RED: Red) => {
-    const tasmotaZigbeeMsgSplit = function (config: NodeProperties) {
+    const aqaraTemperatureHumiditySensor = function (config: NodeProperties) {
         const node: Node = this;
 
         RED.nodes.createNode(node, config);
@@ -18,20 +18,7 @@ const func = (RED: Red) => {
             // fallback to using `node.send`
             send = send || function () { node.send.apply(node, arguments) }
 
-            /**
-             * {"ZbReceived":
-             *  {"0x6DBE":
-             *      {   "Device":"0x6DBE",
-             *          "Name":"TmpSens1",
-             *          "ModelId":"lumi.sensor_ht",
-             *          "Endpoint":1,
-             *          "LinkQuality":149
-             *      }
-             *  }
-             * }
-             * 
-             * "{"ZbReceived":
-             *  {"0x6DBE":
+            /*
              *      {   "Device":"0x6DBE",
              *          "Name":"TmpSens1",
              *          "BatteryVoltage":3.025,
@@ -43,17 +30,28 @@ const func = (RED: Red) => {
              *          "Endpoint":1,
              *          "LinkQuality":149
              *      }
-             *  }
-             * }"
              */
 
 
-            const zbReceived = JSON.parse(msg.payload)["ZbReceived"];
-            if (zbReceived !== undefined && zbReceived !== null) {
-                for (const messageId in zbReceived) {
-                    const message = { payload: JSON.stringify(zbReceived[messageId]) };
-                    send(message);
+            const aquaMsg = [];
+            const aquaPayload = JSON.parse(msg.payload);
+            if (aquaPayload !== undefined && aquaPayload !== null) {
+                if (this.name === aquaPayload.Name) {
+                    aquaMsg.push({ payload: aquaPayload.Device });
+                    aquaMsg.push({ payload: aquaPayload.Name });
+                    aquaMsg.push({ payload: aquaPayload.BatteryVoltage });
+                    aquaMsg.push({ payload: aquaPayload.BatteryPercentage });
+                    aquaMsg.push({ payload: aquaPayload.Voltage });
+                    aquaMsg.push({ payload: aquaPayload.Battery });
+                    aquaMsg.push({ payload: aquaPayload.Temperature });
+                    aquaMsg.push({ payload: aquaPayload.Humidity });
+                    aquaMsg.push({ payload: aquaPayload.Endpoint });
+                    aquaMsg.push({ payload: aquaPayload.LinkQuality });
+                    aquaMsg.push({ payload: (new Date()).toLocaleDateString('de-DE') });
+
                 }
+
+                send(aquaMsg);
             }
 
 
@@ -85,7 +83,7 @@ const func = (RED: Red) => {
         });
 
     }
-    RED.nodes.registerType("aqara-temperature-humidity-sensor", tasmotaZigbeeMsgSplit);
+    RED.nodes.registerType("aqara-temperature-humidity-sensor", aqaraTemperatureHumiditySensor);
 }
 
 module.exports = func;
