@@ -2,6 +2,7 @@ import { Node, Red, NodeProperties } from "node-red";
 
 const func = (RED: Red) => {
     const aqaraTemperatureHumiditySensor = function (config: NodeProperties) {
+
         const node: Node = this;
 
         RED.nodes.createNode(node, config);
@@ -47,7 +48,7 @@ const func = (RED: Red) => {
                     aquaMsg.push({ payload: aquaPayload.Humidity });
                     aquaMsg.push({ payload: aquaPayload.Endpoint });
                     aquaMsg.push({ payload: aquaPayload.LinkQuality });
-                    aquaMsg.push({ payload: (new Date()).toLocaleDateString('de-DE') });
+                    aquaMsg.push({ payload: (new Date()).toString() });
 
                 }
 
