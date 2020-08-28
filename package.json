@@ -8,7 +8,7 @@
   },
   "node-red": {
     "nodes": {
-      "lower-case": "src/aqara-temperature-humidity-sensor.js"
+      "aqara-temperature-humidity-sensor": "src/aqara-temperature-humidity-sensor.js"
     }
   },
   "scripts": {
