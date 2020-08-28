@@ -24,7 +24,19 @@
 </script>
 
 <script type="text/html" data-help-name="aqara-temperature-humidity-sensor">
-    <p>A simple node that converts the message payloads into all lower-case characters</p>
+    <p>
+        Input is a message object containing following information:
+        <code>
+        const testMsg = {
+            payload: '{"Device":"0x6DBE","Name":"TmpSens1","BatteryVoltage":3.015,"BatteryPercentage":100,"Voltage":3.015,"Battery":100,"Temperature":23.88,"Humidity":49.5,"Endpoint":1,"LinkQuality":105}'
+        };
+        </code>
+        
+        aqara-temperature-humidity-sensor reads in the data containing all single information, 
+        separates the single information and provided the certain separated information as an own output.
+        <br>
+        Every output provided the data with "payload" and the data value. 
+    </p>
 
     <h3>Outputs</h3>
      <ol class="node-ports">
