@@ -31,6 +31,18 @@ const func = (RED: Red) => {
              *          "Endpoint":1,
              *          "LinkQuality":149
              *      }
+             * 
+             *      {"Device":"0x8463",
+             *      "Name":"TmpSens2",
+             *      "Temperature":25.44,
+             *      "Humidity":50.16,
+             *      "PressureUnit":"hPa",
+             *      "Pressure":968,
+             *      "PressureScale":-1,
+             *      "PressureScaledValue":9687,
+             *      "Endpoint":1,
+             *      "LinkQuality":63}}}
+             * 
              */
 
 
@@ -40,12 +52,13 @@ const func = (RED: Red) => {
                 if (this.name === aquaPayload.Name) {
                     aquaMsg.push({ payload: aquaPayload.Device });
                     aquaMsg.push({ payload: aquaPayload.Name });
+                    aquaMsg.push({ payload: aquaPayload.Temperature });
+                    aquaMsg.push({ payload: aquaPayload.Humidity });
+                    aquaMsg.push({ payload: aquaPayload.Pressure });
                     aquaMsg.push({ payload: aquaPayload.BatteryVoltage });
                     aquaMsg.push({ payload: aquaPayload.BatteryPercentage });
                     aquaMsg.push({ payload: aquaPayload.Voltage });
                     aquaMsg.push({ payload: aquaPayload.Battery });
-                    aquaMsg.push({ payload: aquaPayload.Temperature });
-                    aquaMsg.push({ payload: aquaPayload.Humidity });
                     aquaMsg.push({ payload: aquaPayload.Endpoint });
                     aquaMsg.push({ payload: aquaPayload.LinkQuality });
                     aquaMsg.push({ payload: (new Date()).toString() });

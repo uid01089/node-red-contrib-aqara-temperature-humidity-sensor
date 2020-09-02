@@ -18,8 +18,19 @@ describe('lower-case Node', function () {
     const flow = [
         {
             id: "AquaraTempSensor", type: "aqara-temperature-humidity-sensor", name: "TmpSens1",
-            wires: [["Device"], ["Name"], ["BatteryVoltage"], ["BatteryPercentage"],
-            ["Voltage"], ["Battery"], ["Temperature"], ["Humidity"], ["Endpoint"], ["LinkQuality"], ["Time"]]
+            wires: [
+                ["Device"],
+                ["Name"],
+                ["Temperature"],
+                ["Humidity"],
+                ["Pressure"],
+                ["BatteryVoltage"],
+                ["BatteryPercentage"],
+                ["Voltage"],
+                ["Battery"],
+                ["Endpoint"],
+                ["LinkQuality"],
+                ["Time"]]
         },
         { id: "Device", type: "helper" },
         { id: "Name", type: "helper" },
@@ -32,13 +43,13 @@ describe('lower-case Node', function () {
         { id: "Endpoint", type: "helper" },
         { id: "LinkQuality", type: "helper" },
         { id: "Time", type: "helper" },
-
+        { id: "Pressure", type: "helper" },
     ];
 
 
 
     const testMsg = {
-        payload: '{"Device":"0x6DBE","Name":"TmpSens1","BatteryVoltage":3.015,"BatteryPercentage":100,"Voltage":3.015,"Battery":100,"Temperature":23.88,"Humidity":49.5,"Endpoint":1,"LinkQuality":105}'
+        payload: '{"Device":"0x6DBE","Name":"TmpSens1","BatteryVoltage":3.015,"BatteryPercentage":100,"Voltage":3.015,"Battery":100,"Temperature":23.88,"Humidity":49.5,"Pressure":968,"Endpoint":1,"LinkQuality":105}'
     };
 
     it('should be loaded', function (done) {
@@ -201,6 +212,21 @@ describe('lower-case Node', function () {
             helperNode.on("input", function (msg) {
 
                 msg.should.have.property('payload', (new Date()).toString());
+                done();
+            });
+            underTestNode.receive(testMsg);
+        });
+    });
+
+    it('should return Pressure', function (done) {
+        helper.load(lowerNode, flow, function () {
+            const helperNode = helper.getNode("Pressure");
+            const underTestNode = helper.getNode("AquaraTempSensor");
+
+
+            helperNode.on("input", function (msg) {
+
+                msg.should.have.property('payload', 968);
                 done();
             });
             underTestNode.receive(testMsg);
