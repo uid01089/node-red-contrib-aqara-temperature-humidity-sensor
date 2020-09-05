@@ -12,7 +12,7 @@ const func = (RED: Red) => {
          * Nodes register a listener on the input event 
          * to receive messages from the up-stream nodes in a flow.
         */
-        node.on("input", async function (msg, send, done) {
+        node.on("input", function (msg, send, done) {
 
             // For maximum backwards compatibility, check that send exists.
             // If this node is installed in Node-RED 0.x, it will need to
@@ -63,13 +63,15 @@ const func = (RED: Red) => {
                     aquaMsg.push({ payload: aquaPayload.LinkQuality });
                     aquaMsg.push({ payload: (new Date()).toString() });
 
+                    aquaMsg.push({ payload: aquaPayload.Endpoint });
+                    aquaMsg.push({ payload: aquaPayload.LinkQuality });
 
-                    aquaMsg.push({ [`${aquaPayload.Name}`]: aquaPayload.Temperature });
-                    aquaMsg.push({ [`${aquaPayload.Name}`]: aquaPayload.Humidity });
-
+                    aquaMsg.push({ payload: { [`${aquaPayload.Name}`]: aquaPayload.Temperature } });
+                    aquaMsg.push({ payload: { [`${aquaPayload.Name}`]: aquaPayload.Humidity } });
+                    send(aquaMsg);
                 }
 
-                send(aquaMsg);
+
             }
 
 

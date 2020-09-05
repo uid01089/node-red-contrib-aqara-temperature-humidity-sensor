@@ -81,6 +81,7 @@ describe('lower-case Node', function () {
         });
     });
 
+
     it('should return Name', function (done) {
         helper.load(lowerNode, flow, function () {
             var helperNode = helper.getNode("Name");
@@ -94,6 +95,7 @@ describe('lower-case Node', function () {
             underTestNode.receive(testMsg);
         });
     });
+
 
     it('should return BatteryVoltage', function (done) {
         helper.load(lowerNode, flow, function () {
@@ -180,6 +182,7 @@ describe('lower-case Node', function () {
         });
     });
 
+
     it('should return Endpoint', function (done) {
         helper.load(lowerNode, flow, function () {
             var helperNode = helper.getNode("Endpoint");
@@ -193,6 +196,7 @@ describe('lower-case Node', function () {
             underTestNode.receive(testMsg);
         });
     });
+
 
     it('should return LinkQuality', function (done) {
         helper.load(lowerNode, flow, function () {
@@ -248,7 +252,7 @@ describe('lower-case Node', function () {
 
             helperNode.on("input", function (msg) {
 
-                //msg.should.have.property('TmpSens1', 23.88);
+                msg.should.have.property('payload', { 'TmpSens1': 23.88 });
                 done();
             });
             underTestNode.receive(testMsg);
@@ -263,7 +267,7 @@ describe('lower-case Node', function () {
 
             helperNode.on("input", function (msg) {
 
-                //msg.should.have.property('TmpSens1', 49.5);
+                msg.should.have.property('payload', { 'TmpSens1': 49.5 });
                 done();
             });
             underTestNode.receive(testMsg);
