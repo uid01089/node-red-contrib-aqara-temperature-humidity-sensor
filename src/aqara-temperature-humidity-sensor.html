@@ -8,7 +8,7 @@
             name: { value: "" }
         },
         inputs: 1,
-        outputs: 12,
+        outputs: 14,
         icon: "file.png",
         label: function () {
             return this.name || "aqara-temperature-humidity-sensor";
@@ -35,7 +35,7 @@
         aqara-temperature-humidity-sensor reads in the data containing all single information, 
         separates the single information and provided the certain separated information as an own output.
         <br>
-        Every output provided the data with "payload" and the data value. 
+        Every output provided the data with "payload" and the data value - expect the InfluxDB outputs
     </p>
 
     <h3>Outputs</h3>
@@ -43,51 +43,59 @@
          <li>Standard output
              <dl class="message-properties">
                  <dt>Device <span class="property-type">string</span></dt>
-                 <dd>the standard output of the command.</dd>
+                 <dd>The address of the device.</dd>
              </dl>
              <dl class="message-properties">
                  <dt>Name <span class="property-type">string</span></dt>
-                 <dd>the standard output of the command.</dd>
+                 <dd>The name of the device.</dd>
              </dl>
              <dl class="message-properties">
                  <dt>Temperature <span class="property-type">string</span></dt>
-                 <dd>the standard output of the command.</dd>
+                 <dd>Temperature.</dd>
              </dl>
              <dl class="message-properties">
                  <dt>Humidity <span class="property-type">string</span></dt>
-                 <dd>the standard output of the command.</dd>
+                 <dd>Humidity.</dd>
              </dl>
               <dl class="message-properties">
                  <dt>Pressure <span class="property-type">string</span></dt>
-                 <dd>the standard output of the command.</dd>
+                 <dd>Pressure (if available).</dd>
              </dl>
              <dl class="message-properties">
                  <dt>BatteryVoltage <span class="property-type">string</span></dt>
-                 <dd>the standard output of the command.</dd>
+                 <dd>BatteryVoltage (if available).</dd>
              </dl>
              <dl class="message-properties">
                  <dt>BatteryPercentage <span class="property-type">string</span></dt>
-                 <dd>the standard output of the command.</dd>
+                 <dd>BatteryPercentage (if available).</dd>
              </dl>
              <dl class="message-properties">
                  <dt>Voltage <span class="property-type">string</span></dt>
-                 <dd>the standard output of the command.</dd>
+                 <dd>Voltage (if available).</dd>
              </dl>
              <dl class="message-properties">
                  <dt>Battery <span class="property-type">string</span></dt>
-                 <dd>the standard output of the command.</dd>
+                 <dd>Battery (if available).</dd>
              </dl>
             <dl class="message-properties">
                  <dt>Endpoint <span class="property-type">string</span></dt>
-                 <dd>the standard output of the command.</dd>
+                 <dd>Endpoint.</dd>
              </dl>
              <dl class="message-properties">
                  <dt>LinkQuality <span class="property-type">string</span></dt>
-                 <dd>the standard output of the command.</dd>
+                 <dd>The quality of the link.</dd>
              </dl>
              <dl class="message-properties">
                  <dt>Time <span class="property-type">string</span></dt>
-                 <dd>the standard output of the command.</dd>
+                 <dd>Time when message was created.</dd>
+             </dl>
+            <dl class="message-properties">
+                 <dt>InfluxDB Temperature <span class="property-type">string</span></dt>
+                 <dd>{Name of the sensor: temperature}.</dd>
+             </dl>
+            <dl class="message-properties">
+                 <dt>InfluxDB Humidity <span class="property-type">string</span></dt>
+                 <dd>{Name of the sensor: humidity}.</dd>
              </dl>
          </li>
      </ol>

@@ -30,7 +30,11 @@ describe('lower-case Node', function () {
                 ["Battery"],
                 ["Endpoint"],
                 ["LinkQuality"],
-                ["Time"]]
+                ["Time"],
+                ["LinkQuality"],
+                ["Time"],
+                ["InfluxDbTemp"],
+                ["InfluxDbHumidity"]]
         },
         { id: "Device", type: "helper" },
         { id: "Name", type: "helper" },
@@ -44,6 +48,8 @@ describe('lower-case Node', function () {
         { id: "LinkQuality", type: "helper" },
         { id: "Time", type: "helper" },
         { id: "Pressure", type: "helper" },
+        { id: "InfluxDbTemp", type: "helper" },
+        { id: "InfluxDbHumidity", type: "helper" }
     ];
 
 
@@ -227,6 +233,37 @@ describe('lower-case Node', function () {
             helperNode.on("input", function (msg) {
 
                 msg.should.have.property('payload', 968);
+                done();
+            });
+            underTestNode.receive(testMsg);
+        });
+    });
+
+
+    it('should return InfluxDbTemp', function (done) {
+        helper.load(lowerNode, flow, function () {
+            const helperNode = helper.getNode("InfluxDbTemp");
+            const underTestNode = helper.getNode("AquaraTempSensor");
+
+
+            helperNode.on("input", function (msg) {
+
+                //msg.should.have.property('TmpSens1', 23.88);
+                done();
+            });
+            underTestNode.receive(testMsg);
+        });
+    });
+
+    it('should return InfluxDbHumidity', function (done) {
+        helper.load(lowerNode, flow, function () {
+            const helperNode = helper.getNode("InfluxDbHumidity");
+            const underTestNode = helper.getNode("AquaraTempSensor");
+
+
+            helperNode.on("input", function (msg) {
+
+                //msg.should.have.property('TmpSens1', 49.5);
                 done();
             });
             underTestNode.receive(testMsg);
