@@ -62,10 +62,6 @@ const func = (RED: Red) => {
                     aquaMsg.push({ payload: aquaPayload.Endpoint });
                     aquaMsg.push({ payload: aquaPayload.LinkQuality });
                     aquaMsg.push({ payload: (new Date()).toString() });
-
-                    aquaMsg.push({ payload: aquaPayload.Endpoint });
-                    aquaMsg.push({ payload: aquaPayload.LinkQuality });
-
                     aquaMsg.push({ payload: { [`${aquaPayload.Name}`]: aquaPayload.Temperature } });
                     aquaMsg.push({ payload: { [`${aquaPayload.Name}`]: aquaPayload.Humidity } });
                     send(aquaMsg);

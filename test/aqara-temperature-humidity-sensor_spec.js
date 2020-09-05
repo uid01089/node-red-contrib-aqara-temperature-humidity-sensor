@@ -31,8 +31,6 @@ describe('lower-case Node', function () {
                 ["Endpoint"],
                 ["LinkQuality"],
                 ["Time"],
-                ["LinkQuality"],
-                ["Time"],
                 ["InfluxDbTemp"],
                 ["InfluxDbHumidity"]]
         },
