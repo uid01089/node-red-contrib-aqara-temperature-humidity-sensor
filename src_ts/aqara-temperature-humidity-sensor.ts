@@ -1,9 +1,25 @@
-import { Node, Red, NodeProperties } from "node-red";
+import { NodeProperties, Red, Node } from "./node-red-types"
+
+
+
+
+
+interface MyNodeProperties extends NodeProperties {
+
+}
+
+interface MyNode extends Node {
+
+}
+
+
+
 
 const func = (RED: Red) => {
-    const aqaraTemperatureHumiditySensor = function (config: NodeProperties) {
+    const aqaraTemperatureHumiditySensor = function (config: MyNodeProperties) {
 
-        const node: Node = this;
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const node: MyNode = this;
 
         RED.nodes.createNode(node, config);
 
@@ -12,63 +28,69 @@ const func = (RED: Red) => {
          * Nodes register a listener on the input event 
          * to receive messages from the up-stream nodes in a flow.
         */
-        node.on("input", function (msg, send, done) {
+        node.on("input", async function (msg, send, done) {
 
-            // For maximum backwards compatibility, check that send exists.
-            // If this node is installed in Node-RED 0.x, it will need to
-            // fallback to using `node.send`
-            send = send || function () { node.send.apply(node, arguments) }
+            try {
+                // For maximum backwards compatibility, check that send exists.
+                // If this node is installed in Node-RED 0.x, it will need to
+                // fallback to using `node.send`
+                // eslint-disable-next-line prefer-spread, prefer-rest-params
+                send = send || function () { node.send.apply(node, arguments) }
 
-            /*
-             *      {   "Device":"0x6DBE",
-             *          "Name":"TmpSens1",
-             *          "BatteryVoltage":3.025,
-             *          "BatteryPercentage":100,
-             *          "Voltage":3.025,
-             *          "Battery":100,
-             *          "Temperature":24.46,
-             *          "Humidity":48.76,
-             *          "Endpoint":1,
-             *          "LinkQuality":149
-             *      }
-             * 
-             *      {"Device":"0x8463",
-             *      "Name":"TmpSens2",
-             *      "Temperature":25.44,
-             *      "Humidity":50.16,
-             *      "PressureUnit":"hPa",
-             *      "Pressure":968,
-             *      "PressureScale":-1,
-             *      "PressureScaledValue":9687,
-             *      "Endpoint":1,
-             *      "LinkQuality":63}}}
-             * 
-             */
+                /*
+                 *      {   "Device":"0x6DBE",
+                 *          "Name":"TmpSens1",
+                 *          "BatteryVoltage":3.025,
+                 *          "BatteryPercentage":100,
+                 *          "Voltage":3.025,
+                 *          "Battery":100,
+                 *          "Temperature":24.46,
+                 *          "Humidity":48.76,
+                 *          "Endpoint":1,
+                 *          "LinkQuality":149
+                 *      }
+                 * 
+                 *      {"Device":"0x8463",
+                 *      "Name":"TmpSens2",
+                 *      "Temperature":25.44,
+                 *      "Humidity":50.16,
+                 *      "PressureUnit":"hPa",
+                 *      "Pressure":968,
+                 *      "PressureScale":-1,
+                 *      "PressureScaledValue":9687,
+                 *      "Endpoint":1,
+                 *      "LinkQuality":63}}}
+                 * 
+                 */
 
 
-            const aquaMsg = [];
-            const aquaPayload = JSON.parse(msg.payload);
-            if (aquaPayload !== undefined && aquaPayload !== null) {
-                if (this.name === aquaPayload.Name) {
-                    aquaMsg.push({ payload: aquaPayload.Device });
-                    aquaMsg.push({ payload: aquaPayload.Name });
-                    aquaMsg.push({ payload: aquaPayload.Temperature });
-                    aquaMsg.push({ payload: aquaPayload.Humidity });
-                    aquaMsg.push({ payload: aquaPayload.Pressure });
-                    aquaMsg.push({ payload: aquaPayload.BatteryVoltage });
-                    aquaMsg.push({ payload: aquaPayload.BatteryPercentage });
-                    aquaMsg.push({ payload: aquaPayload.Voltage });
-                    aquaMsg.push({ payload: aquaPayload.Battery });
-                    aquaMsg.push({ payload: aquaPayload.Endpoint });
-                    aquaMsg.push({ payload: aquaPayload.LinkQuality });
-                    aquaMsg.push({ payload: (new Date()).toString() });
-                    aquaMsg.push({ payload: { [`${aquaPayload.Name}`]: aquaPayload.Temperature } });
-                    aquaMsg.push({ payload: { [`${aquaPayload.Name}`]: aquaPayload.Humidity } });
-                    send(aquaMsg);
+                const aquaMsg = [];
+                const aquaPayload = JSON.parse(msg.payload);
+                if (aquaPayload !== undefined && aquaPayload !== null) {
+                    if (this.name === aquaPayload.Name) {
+                        aquaMsg.push({ payload: aquaPayload.Device });
+                        aquaMsg.push({ payload: aquaPayload.Name });
+                        aquaMsg.push({ payload: aquaPayload.Temperature });
+                        aquaMsg.push({ payload: aquaPayload.Humidity });
+                        aquaMsg.push({ payload: aquaPayload.Pressure });
+                        aquaMsg.push({ payload: aquaPayload.BatteryVoltage });
+                        aquaMsg.push({ payload: aquaPayload.BatteryPercentage });
+                        aquaMsg.push({ payload: aquaPayload.Voltage });
+                        aquaMsg.push({ payload: aquaPayload.Battery });
+                        aquaMsg.push({ payload: aquaPayload.Endpoint });
+                        aquaMsg.push({ payload: aquaPayload.LinkQuality });
+                        aquaMsg.push({ payload: (new Date()).toString() });
+                        aquaMsg.push({ payload: { [`${aquaPayload.Name}`]: aquaPayload.Temperature } });
+                        aquaMsg.push({ payload: { [`${aquaPayload.Name}`]: aquaPayload.Humidity } });
+                        send(aquaMsg);
+                    }
+
                 }
-
-
             }
+            catch (e: unknown) {
+                console.error(e);
+            }
+
 
 
 
@@ -89,7 +111,7 @@ const func = (RED: Red) => {
          * disconnecting from a remote system, they should register a listener 
          * on the close event.
         */
-        node.on('close', function (removed, done) {
+        node.on('close', function (removed: boolean, done: () => void) {
             if (removed) {
                 // This node has been disabled/deleted
             } else {
